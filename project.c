@@ -203,7 +203,8 @@ void display_ticket(Passenger *passengers, int num_passengers) {
    scanf("%s", name);
 
    // Search for the passenger
-   for (i = 0; i < *num_passengers; i++) {
+  for (i = 0; i < *num_passengers; i++) {
+   if(strcmp(passengers[i].name, name) == 0){
      if (strcmp(passengers[i].name, name) == 0) {
        printf("\nReservation Cancelled for %s\n", passengers[i].name);
 
@@ -213,15 +214,18 @@ void display_ticket(Passenger *passengers, int num_passengers) {
        }
        *num_passengers -= 1;
      }
+   }
+  
    
-
+  
 	else{
 	   // If the passenger is not found
 	   printf("\nPassenger Not Found!\n");	
 	}
 	
 }
- }
+}
+ 
 
 int main() {
   Passenger passengers[MAX_PASSENGERS]; // array of structure
@@ -249,6 +253,7 @@ int main() {
       cancel_reservation(passengers, &num_passengers);
       break;
     case 4:
+      printf("Thankyou ");
     	exit(0);
     default:
       printf("Invalid choice. Please try again.\n");
