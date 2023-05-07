@@ -35,7 +35,12 @@ char* flight_name(int user_option) {
 }
 
 int seat_details(int seat_no) {
+  if(seat_no > 50){
+    printf("Seat Limit is full");
+  }
+  else{
     return seat_no;
+  }
 }
 
 char* s_class(char* s_class){
@@ -184,7 +189,8 @@ void display_ticket(Passenger *passengers, int num_passengers) {
       printf("Flight details are..\n");
       printf("Flight Name: %s\n", flight_name(option));
       printf("seat number %d of %s class", seat_details(seat_no),s_class(seat_class));
-      
+      printf("\n");
+      printf("\n");
       return;
     }
   }
@@ -204,7 +210,6 @@ void display_ticket(Passenger *passengers, int num_passengers) {
 
    // Search for the passenger
   for (i = 0; i < *num_passengers; i++) {
-   if(strcmp(passengers[i].name, name) == 0){
      if (strcmp(passengers[i].name, name) == 0) {
        printf("\nReservation Cancelled for %s\n", passengers[i].name);
 
@@ -214,7 +219,7 @@ void display_ticket(Passenger *passengers, int num_passengers) {
        }
        *num_passengers -= 1;
      }
-   }
+
   
    
   
