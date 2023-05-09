@@ -1,156 +1,69 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include<dirent.h>
 
-// Define the maximum number of passengers
 #define MAX_PASSENGERS 50
 
-//defining global variables
-//can be accessed from any where 
-char plane_1[] = "XYZ airline 009-A2";
-char plane_2[] = "XYZ airline 009-A3";
-char plane_3[] = "XYZ airline 79-B2";
-char plane_4[] = "XYZ airline 1249-45-C5";
+// Define the maximum length for string inputs
+#define MAX_STRING_LENGTH 50
+char name_[MAX_STRING_LENGTH];
 
-int option,seat_no;
-char seat_class[20];
+// Define the maximum length for flight names
+#define MAX_FLIGHT_NAME_LENGTH 20
 
-// Define the passenger structure
+// Define the maximum length for seat class
+#define MAX_SEAT_CLASS_LENGTH 20
+
+// structure which holds details of passenger
 typedef struct passenger {
-  char name[50];
+  char name[MAX_STRING_LENGTH];
   int age;
   char gender;
-  char from[50];
-  char to[50];
-  char flight_no[10];
+  char from[MAX_STRING_LENGTH];
+  char to[MAX_STRING_LENGTH];
+  char flight_no[MAX_STRING_LENGTH];
+  int seat_no;
+  char seat_class[MAX_SEAT_CLASS_LENGTH];
 } Passenger;
 
+typedef struct flight {
+  char name[MAX_FLIGHT_NAME_LENGTH];
+} Flight;
 
-char* flight_name(int user_option) {
-    return (user_option == 1) ? plane_1 :
-           (user_option == 2) ? plane_2 :
-           (user_option == 3) ? plane_3 :
-           (user_option == 4) ? plane_4 :
-           NULL;
-}
+Flight flights[] = {{"XYZ airline 009-A2"},
+                    {"XYZ airline 009-A3"},
+                    {"XYZ airline 79-B2"},
+                    {"XYZ airline 1249-45-C5"}};
 
-int seat_details(int seat_no) {
-  if(seat_no > 50){
-    printf("Seat Limit is full");
+int num_flights = sizeof(flights) / sizeof(flights[0]);
+
+void display_flights() {
+  printf("Available flights:\n");
+  for (int i = 0; i < num_flights; i++) {
+    printf("%d) %s\n", i + 1, flights[i].name);
   }
-  else{
-    return seat_no;
-  }
 }
 
-char* s_class(char* s_class){
-	return s_class;
+int get_flight_index(int option) { return option - 1; }
+
+int get_seat_number() {
+  int seat_no;
+  printf("Enter seat number: ");
+  scanf("%d", &seat_no);
+  return seat_no;
 }
 
-
-
-
-void flight_details(){
-	char class1[] = "business";
-	
-	printf("Which flight you wnat to choose: \n");
-//	printf("1. XYZ airline 009-A2\n");
-//	printf("2. XYZ airline 009-A3\n");
-//	printf("3. XYZ airline 79-B2\n");
-//	printf("4. XYZ airline 1249-45-C5\n");
-
-	printf("1) %s\n", plane_1);
-	printf("2) %s\n", plane_2);
-	printf("3) %s\n", plane_3);
-	printf("4) %s\n", plane_4);
-	
-	printf("Enter your option: ");
-	scanf("%d", &option);
-	
-	printf("Enter class: ");
-//	gets(seat_class);
-	scanf("%s", seat_class);	
-	
-	switch (option){
-		case 1:
-			printf("Booking for flight XYZ airline 009-A2 \n");
-
-			if(strcmp(seat_class, class1) == 0){
-				printf("Enter seat number of business class: ");
-				scanf("%d", &seat_no);
-				break;
-			}
-			
-			else{
-			
-				printf("Enter seat number of economy class: ");
-				scanf("%d", &seat_no);		
-				break;
-			}
-				
-		case 2:
-			printf("Booking for flight XYZ airline 009-A3 \n");
-
-			if(strcmp(seat_class, class1) == 0){
-				printf("Enter seat number of business class: ");
-				scanf("%d", &seat_no);
-				break;
-			}
-			
-			else{
-			
-				printf("Enter seat number of economy class: ");
-				scanf("%d", &seat_no);		
-				break;
-			}	
-//				
-		case 3:
-			printf("Booking for flight XYZ airline 79-B2 \n");
-
-			if(strcmp(seat_class, class1) == 0){
-				printf("Enter seat number of business class: ");
-				scanf("%d", &seat_no);
-				break;
-			}
-			
-			else{
-			
-				printf("Enter seat number of economy class: ");
-				scanf("%d", &seat_no);		
-				break;
-			}	
-				
-		case 4:
-			printf("Booking for flight XYZ airline 1249-45-C5 \n");
-
-			if(strcmp(seat_class, class1) == 0){
-				printf("Enter seat number of business class: ");
-				scanf("%d", &seat_no);
-				break;
-			}
-			
-			else{
-			
-				printf("Enter seat number of economy class: ");
-				scanf("%d", &seat_no);		
-				break;
-			}
-							
-	}
-}
-
-
-
-
-
-// Function to reserve a ticket
 void reserve_ticket(Passenger *passengers, int *num_passengers) {
-  Passenger p;  //structure variable
+  FILE *fp;
+  Passenger p;
 
-  // Get the passenger details
   printf("\nEnter Passenger Details:\n");
   printf("Name: ");
   scanf("%s", p.name);
+  strcpy(name_, p.name);
+  strcat(name_, ".txt");
+  fp = fopen(name_, "a");
   printf("Age: ");
   scanf("%d", &p.age);
   printf("Gender (M/F): ");
@@ -160,84 +73,128 @@ void reserve_ticket(Passenger *passengers, int *num_passengers) {
   printf("To: ");
   scanf("%s", p.to);
 
-  flight_details();
+  display_flights();
+  printf("Enter your option: ");
+  int option;
+  scanf("%d", &option);
 
-  // Add the passenger to the list
+  if (option < 1 || option > num_flights) {
+    printf("Invalid flight option!\n");
+    return;
+  }
+
+  strcpy(p.flight_no, flights[get_flight_index(option)].name);
+
+  printf("Enter seat class: ");
+  scanf("%s", p.seat_class);
+
+  if (strcmp(p.seat_class, "business") == 0) {
+    p.seat_no = get_seat_number();
+  } else {
+    p.seat_no = get_seat_number();
+  }
+
+  if (*num_passengers >= MAX_PASSENGERS) {
+    printf("Maximum number of passengers reached!\n");
+    return;
+  }
+
   passengers[*num_passengers] = p;
   *num_passengers += 1;
+
+  fprintf(fp, "\nTicket Details of %s", p.name);
+  fprintf(fp, "\n\nName: %s\t Age: %d\t Gender: %c\t", p.name, p.age, p.gender);
+  fprintf(fp, "\n");
+  fprintf(fp, "\nFrom: %s\t To: %s\t Flignt Number: %d\t", p.from, p.to,
+          option);
+  fprintf(fp, "\n");
+  fprintf(fp, "\n\nClass: %s\t Seat Number: %d\t", p.seat_class, p.seat_no);
+  fprintf(fp, "\n");
+  fclose(fp);
 
   printf("\nTicket Reserved Successfully!\n");
 }
 
-// Function to display the ticket
 void display_ticket(Passenger *passengers, int num_passengers) {
-  int i;
-  char name[50];
-
-  // Get the passenger name
+  char name[MAX_STRING_LENGTH];
   printf("\nEnter Passenger Name: ");
   scanf("%s", name);
 
-  // Search for the passenger and display the ticket
-  for (i = 0; i < num_passengers; i++) {
+
+  int found = 0;
+  for (int i = 0; i < num_passengers; i++) {
     if (strcmp(passengers[i].name, name) == 0) {
-      printf("\nName: %s\n", passengers[i].name);
-      printf("Age: %d\n", passengers[i].age);
-      printf("Gender: %c\n", passengers[i].gender);
-      printf("From: %s\n", passengers[i].from);
-      printf("To: %s\n", passengers[i].to);
-      printf("Flight details are..\n");
-      printf("Flight Name: %s\n", flight_name(option));
-      printf("seat number %d of %s class", seat_details(seat_no),s_class(seat_class));
-      printf("\n");
-      printf("\n");
-      return;
+      found = 1;
+
+      // ...MAIN CODE TO DISPLAY OUTPprint
+      // printf("\nName: %s\n", passengers[i].name);
+      // printf("Age: %d\n", passengers[i].age);
+      // printf("Gender: %c\n", passengers[i].gender);
+      // printf("From: %s\n", passengers[i].from);
+
+      // printf("To: %s\n", passengers[i].to);
+      // printf("Flight details:\n");
+      // printf("Flight Name: %s\n", passengers[i].flight_no);
+      // printf("Seat Number: %d\n", passengers[i].seat_no);
+      // printf("Seat Class: %s\n", passengers[i].seat_class);
+
+          printf("\nTicket Details of %s", passengers[i].name);
+          printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name, passengers[i].age, passengers[i].gender);
+          printf("\n");
+          printf("\nFrom: %s\t To: %s\t Flignt Number: %s\t", passengers[i].from, passengers[i].to,
+                  passengers[i].flight_no);
+          printf("\n");
+          printf("\nClass: %s\t Seat Number: %d\t", passengers[i].seat_class, passengers[i].seat_no);
+          printf("\n");
+      break;
     }
   }
 
-  // If the passenger is not found
-  printf("\nPassenger Not Found!\n");
+  if (!found) {
+    printf("\nPassenger Not Found!\n");
+  }
 }
 
-//important function to be implemented
- void cancel_reservation(Passenger *passengers, int *num_passengers) {
-   char name[50];
-   int i, j;
+void cancel_reservation(Passenger *passengers, int *num_passengers) {
+  char *file_name;
+  char name[MAX_STRING_LENGTH];
 
-   // Get the passenger name
-   printf("\nEnter Passenger Name: ");
-   scanf("%s", name);
+  printf("\nEnter Passenger Name: ");
+  scanf("%s", name);
 
-   // Search for the passenger
-  for (i = 0; i < *num_passengers; i++) {
-     if (strcmp(passengers[i].name, name) == 0) {
-       printf("\nReservation Cancelled for %s\n", passengers[i].name);
+  int found = 0; // Firstly indicating found as 0 (FALSE)
+  for (int i = 0; i < *num_passengers; i++) {
+    if (strcmp(passengers[i].name, name) == 0) {
+      found = 1; // if passenger is found indicating 1 (TRUE)
 
-        //Remove the passenger from the list
-       for (j = i; j < *num_passengers - 1; j++) {
-         passengers[j] = passengers[j+1];
-       }
-       *num_passengers -= 1;
-     }
+       file_name = strcat(name, ".txt");
+        // file = fopen(name, "w");
+        // fclose(file);
+        if (remove(file_name) == 0) {
+      printf("\nReservation Cancelled for %s\n", passengers[i].name);
+    }
 
-  
-   
-  
-	else{
-	   // If the passenger is not found
-	   printf("\nPassenger Not Found!\n");	
-	}
-	
+      for (int j = i; j < *num_passengers - 1; j++) {
+        passengers[j] = passengers[j + 1];
+      }
+      *num_passengers -= 1;
+      break;
+    }
+  }
+
+  if (!found) {
+    printf("\nPassenger Not Found!\n");
+  }
+
+
 }
-}
- 
 
 int main() {
-  Passenger passengers[MAX_PASSENGERS]; // array of structure
+  Passenger passengers[MAX_PASSENGERS];
   int num_passengers = 0;
   int choice;
-
-  // Display the reservation system menu
+  printf("WELCOME TO XYZ AIRLINE SERVICE");
+  printf("\n");
   while (1) {
     printf("\nAirline Ticket Reservation System\n");
     printf("1. Reserve a Ticket\n");
@@ -254,12 +211,12 @@ int main() {
     case 2:
       display_ticket(passengers, num_passengers);
       break;
-    case 3: 
+    case 3:
       cancel_reservation(passengers, &num_passengers);
       break;
     case 4:
-      printf("Thankyou ");
-    	exit(0);
+      printf("Thank you for using the Airline Ticket Reservation System.\n");
+      exit(0);
     default:
       printf("Invalid choice. Please try again.\n");
     }
@@ -267,4 +224,3 @@ int main() {
 
   return 0;
 }
-

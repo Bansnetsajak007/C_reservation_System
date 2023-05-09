@@ -60,8 +60,11 @@ void reserve_ticket(Passenger *passengers, int *num_passengers) {
   printf("\nEnter Passenger Details:\n");
   printf("Name: ");
   scanf("%s", p.name);
+
+  //file operations
   strcpy(name_, p.name);
   strcat(name_, ".txt");
+
   fp = fopen(name_, "a");
   printf("Age: ");
   scanf("%d", &p.age);

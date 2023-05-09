@@ -21,3 +21,6 @@ The code does not handle cases where the user enters a name that matches multipl
 The code does not handle cases where the user enters a name that does not exist in the passenger list. It should provide appropriate feedback to the user in such cases.
 
 The scanf function is used without specifying the field width for string inputs, which can lead to buffer overflow if the input exceeds the buffer size. It's recommended to use fgets or specify the maximum length in scanf to avoid this issue.
+
+
+Directory =      C:\Users\Acer\Desktop\collage\First-sem_project
