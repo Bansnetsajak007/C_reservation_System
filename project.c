@@ -126,18 +126,6 @@ void display_ticket(Passenger *passengers, int num_passengers) {
     if (strcmp(passengers[i].name, name) == 0) {
       found = 1;
 
-      // ...MAIN CODE TO DISPLAY OUTPprint
-      // printf("\nName: %s\n", passengers[i].name);
-      // printf("Age: %d\n", passengers[i].age);
-      // printf("Gender: %c\n", passengers[i].gender);
-      // printf("From: %s\n", passengers[i].from);
-
-      // printf("To: %s\n", passengers[i].to);
-      // printf("Flight details:\n");
-      // printf("Flight Name: %s\n", passengers[i].flight_no);
-      // printf("Seat Number: %d\n", passengers[i].seat_no);
-      // printf("Seat Class: %s\n", passengers[i].seat_class);
-
       printf("\nTicket Details of %s", passengers[i].name);
       printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name,
              passengers[i].age, passengers[i].gender);
@@ -170,8 +158,6 @@ void cancel_reservation(Passenger *passengers, int *num_passengers) {
       found = 1; // if passenger is found indicating 1 (TRUE)
 
       file_name = strcat(name, ".txt");
-      // file = fopen(name, "w");
-      // fclose(file);
       if (remove(file_name) == 0) {
         printf("\nReservation Cancelled for %s\n", passengers[i].name);
       }
