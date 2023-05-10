@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include<dirent.h>
 
 #define MAX_PASSENGERS 50
 
@@ -80,7 +79,9 @@ void reserve_ticket(Passenger *passengers, int *num_passengers) {
 
   if (option < 1 || option > num_flights) {
     printf("Invalid flight option!\n");
-    return;
+    option = 0;
+    printf("Enter filight options again: ");
+    scanf("%d", &option);
   }
 
   strcpy(p.flight_no, flights[get_flight_index(option)].name);
@@ -120,7 +121,6 @@ void display_ticket(Passenger *passengers, int num_passengers) {
   printf("\nEnter Passenger Name: ");
   scanf("%s", name);
 
-
   int found = 0;
   for (int i = 0; i < num_passengers; i++) {
     if (strcmp(passengers[i].name, name) == 0) {
@@ -138,14 +138,16 @@ void display_ticket(Passenger *passengers, int num_passengers) {
       // printf("Seat Number: %d\n", passengers[i].seat_no);
       // printf("Seat Class: %s\n", passengers[i].seat_class);
 
-          printf("\nTicket Details of %s", passengers[i].name);
-          printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name, passengers[i].age, passengers[i].gender);
-          printf("\n");
-          printf("\nFrom: %s\t To: %s\t Flignt Number: %s\t", passengers[i].from, passengers[i].to,
-                  passengers[i].flight_no);
-          printf("\n");
-          printf("\nClass: %s\t Seat Number: %d\t", passengers[i].seat_class, passengers[i].seat_no);
-          printf("\n");
+      printf("\nTicket Details of %s", passengers[i].name);
+      printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name,
+             passengers[i].age, passengers[i].gender);
+      printf("\n");
+      printf("\nFrom: %s\t To: %s\t Flignt Number: %s\t", passengers[i].from,
+             passengers[i].to, passengers[i].flight_no);
+      printf("\n");
+      printf("\nClass: %s\t Seat Number: %d\t", passengers[i].seat_class,
+             passengers[i].seat_no);
+      printf("\n");
       break;
     }
   }
@@ -167,12 +169,12 @@ void cancel_reservation(Passenger *passengers, int *num_passengers) {
     if (strcmp(passengers[i].name, name) == 0) {
       found = 1; // if passenger is found indicating 1 (TRUE)
 
-       file_name = strcat(name, ".txt");
-        // file = fopen(name, "w");
-        // fclose(file);
-        if (remove(file_name) == 0) {
-      printf("\nReservation Cancelled for %s\n", passengers[i].name);
-    }
+      file_name = strcat(name, ".txt");
+      // file = fopen(name, "w");
+      // fclose(file);
+      if (remove(file_name) == 0) {
+        printf("\nReservation Cancelled for %s\n", passengers[i].name);
+      }
 
       for (int j = i; j < *num_passengers - 1; j++) {
         passengers[j] = passengers[j + 1];
@@ -185,8 +187,6 @@ void cancel_reservation(Passenger *passengers, int *num_passengers) {
   if (!found) {
     printf("\nPassenger Not Found!\n");
   }
-
-
 }
 
 int main() {
