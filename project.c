@@ -4,14 +4,14 @@
 
 #define MAX_PASSENGERS 50
 
-// Define the maximum length for string inputs
+//Defining maximum length of string inputs
 #define MAX_STRING_LENGTH 50
 char name_[MAX_STRING_LENGTH];
 
-// Define the maximum length for flight names
+// Defining  maximum length for flight names
 #define MAX_FLIGHT_NAME_LENGTH 20
 
-// Define the maximum length for seat class
+// Defining the maximum length for seat class
 #define MAX_SEAT_CLASS_LENGTH 20
 
 // structure which holds details of passenger
@@ -26,14 +26,16 @@ typedef struct passenger {
   char seat_class[MAX_SEAT_CLASS_LENGTH];
 } Passenger;
 
+//structure holds flight details
 typedef struct flight {
   char name[MAX_FLIGHT_NAME_LENGTH];
 } Flight;
 
-Flight flights[] = {{"XYZ airline 009-A2"},
-                    {"XYZ airline 009-A3"},
-                    {"XYZ airline 79-B2"},
-                    {"XYZ airline 1249-45-C5"}};
+//Array of string (All flight names)
+Flight flights[] = {{"Flight-1"},
+                    {"Flight-2"},
+                    {"Flight-3"},
+                    {"Flight-4"}};
 
 int num_flights = sizeof(flights) / sizeof(flights[0]);
 
