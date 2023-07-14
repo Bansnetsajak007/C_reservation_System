@@ -1,13 +1,16 @@
 #include <stdio.h>
+#include <conio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define MAX_PASSENGERS 50
-
+#define MAX_BUFFER_SIZE 100  //for Password auth
 //Defining maximum length of string inputs
 #define MAX_STRING_LENGTH 50
 char name_[MAX_STRING_LENGTH];
 char type_ticket;
+char log_in;
 
 // Defining  maximum length for flight names
 #define MAX_FLIGHT_NAME_LENGTH 20
@@ -130,7 +133,7 @@ void reserve_ticket(Passenger *passengers, int *num_passengers) {
 
 //code for writing ticket details in file
 if(type_ticket == 'y'){
-  fprintf(fp, "\nTicket Details of %s", p.name);
+  fprintf(fp, "\n\t\t\tTicket Details of %s", p.name);
   fprintf(fp, "\n\nName: %s\t Age: %d\t Gender: %c\t", p.name, p.age, p.gender);
   fprintf(fp, "\n");
   fprintf(fp, "\nFrom: %s\t To: %s\t Flignt Number: %d\t", p.from, p.to,
@@ -176,7 +179,7 @@ void display_ticket(Passenger *passengers, int num_passengers) {
     if (strcmp(passengers[i].name, name) == 0) {
       found = 1;
       if(type_ticket == 'y'){
-      printf("\nTicket Details of %s", passengers[i].name);
+      printf("\n\t\t\tTicket Details of %s", passengers[i].name);
       printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name,
              passengers[i].age, passengers[i].gender);
       printf("\n");
@@ -193,7 +196,7 @@ void display_ticket(Passenger *passengers, int num_passengers) {
       }
 
       else{
-      printf("\nTicket Details of %s", passengers[i].name);
+      printf("\n\t\t\tTicket Details of %s", passengers[i].name);
       printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name,
              passengers[i].age, passengers[i].gender);
       printf("\n");
@@ -246,17 +249,79 @@ void cancel_reservation(Passenger *passengers, int *num_passengers) {
 }
 
 int main() {
+  
   Passenger passengers[MAX_PASSENGERS];
   int num_passengers = 0;
-  int choice;
-  printf("WELCOME TO XYZ AIRLINE SERVICE");
-  printf("\n");
+  int i;
+  int progress;
+  int total = 20; // Total number of progress bar units
+  int choice,option;
+  char UserName[MAX_STRING_LENGTH],Password[MAX_STRING_LENGTH];
+  char buffer[MAX_BUFFER_SIZE];
+  char username[MAX_BUFFER_SIZE];
+  char Password_[MAX_BUFFER_SIZE];
+
+    printf("\n\t\t\t   AIRLINE TICKET RESERVATION SYSTEM");
+    printf("\n\t\t\t_______________________________________");
+    printf("\n");
+    printf("\n\t\t\t\t    WELCOME ");
+    printf("\n\t\t\t\t      TO ");
+    printf("\n\t\t\t  AIRLINE TICKET RESERVATION SYSTEM  ");
+    printf("\n\n");
+
+
+  printf("Enter Your UserName:");
+  fgets(UserName,MAX_STRING_LENGTH,stdin);
+  printf("Enter Your Password: ");
+  for (i = 0; i < MAX_STRING_LENGTH; i++) {
+        Password[i] = getch();
+        if (Password[i] == '\r') // Stop taking input if Enter key is pressed
+            break;
+        printf("*");
+    }
+    Password[i] = '\0'; // Add null terminator at the end of the Password string
+
+
+    printf("\n\n");
+
+    printf("Loading: [");
+    fflush(stdout);
+
+    for (i = 0; i <= total; i++) {
+        progress = i * 100 / total;
+
+        // Display progress bar
+        printf("\rLoading: [");
+        int j;
+        for (j = 0; j < i; j++) {
+            printf("=");
+        }
+        printf(">");
+        for (j = i + 1; j <= total; j++) {
+            printf(" ");
+        }
+        printf("] %d%%", progress);
+        fflush(stdout);
+
+        struct timespec sleepTime;
+            sleepTime.tv_sec = 0;
+            sleepTime.tv_nsec = 100000000L; // 100 milliseconds
+            nanosleep(&sleepTime, NULL);
+    }
+        printf("\n");
+
+
+
+
   while (1) {
-    printf("\nAirline Ticket Reservation System\n");
-    printf("1. Reserve a Ticket\n");
-    printf("2. Display Ticket\n");
-    printf("3. Cancel Ticket\n");
-    printf("4. Exit\n");
+    printf("\n\nWelcome To XYZ airline serviece %s\n\n", UserName);
+
+     printf("\n\t\t________________________________________\n\n");
+     printf("\n\t\t 1. Reserve a Ticket");
+     printf("\n\t\t 1. Reserve a Ticket");
+     printf("\n\t\t 3. Cancel Ticket");
+     printf("\n\t\t 4. Exit\n");
+     printf("\n\t\t________________________________________\n\n");
     printf("Enter your choice: ");
     scanf("%d", &choice);
 
@@ -271,12 +336,14 @@ int main() {
       cancel_reservation(passengers, &num_passengers);
       break;
     case 4:
-      printf("Thank you for using the Airline Ticket Reservation System.\n");
+      printf("\nThank you for using the Airline Ticket Reservation System.\n");
       exit(0);
     default:
       printf("Invalid choice. Please try again.\n");
     }
   }
-
+  
   return 0;
+
+
 }
