@@ -1,3 +1,5 @@
+//total time wasted 34 hours
+
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
@@ -261,17 +263,19 @@ int main() {
   char username[MAX_BUFFER_SIZE];
   char Password_[MAX_BUFFER_SIZE];
 
-    printf("\n\t\t\t   AIRLINE TICKET RESERVATION SYSTEM");
     printf("\n\t\t\t_______________________________________");
     printf("\n");
     printf("\n\t\t\t\t    WELCOME ");
     printf("\n\t\t\t\t      TO ");
     printf("\n\t\t\t  AIRLINE TICKET RESERVATION SYSTEM  ");
+    printf("\n\t\t\t_______________________________________");
     printf("\n\n");
 
 
   printf("Enter Your UserName:");
   fgets(UserName,MAX_STRING_LENGTH,stdin);
+
+  //logic to take password by the user safely
   printf("Enter Your Password: ");
   for (i = 0; i < MAX_STRING_LENGTH; i++) {
         Password[i] = getch();
@@ -284,6 +288,8 @@ int main() {
 
     printf("\n\n");
 
+
+//loading animation
     printf("Loading: [");
     fflush(stdout);
 
@@ -317,8 +323,8 @@ int main() {
     printf("\n\nWelcome To XYZ airline serviece %s\n\n", UserName);
 
      printf("\n\t\t________________________________________\n\n");
-     printf("\n\t\t 1. Reserve a Ticket");
-     printf("\n\t\t 1. Reserve a Ticket");
+     printf("\n\t\t 1. Reserve Ticket");
+     printf("\n\t\t 1. Display Ticket");
      printf("\n\t\t 3. Cancel Ticket");
      printf("\n\t\t 4. Exit\n");
      printf("\n\t\t________________________________________\n\n");
