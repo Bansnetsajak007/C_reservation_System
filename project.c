@@ -328,7 +328,7 @@ int main() {
      printf("\n\t\t What Would You Like To Do?");
      printf("\n\t\t________________________________________\n\n");
      printf("\n\t\t 1. Reserve Ticket");
-     printf("\n\t\t 1. Display Ticket");
+     printf("\n\t\t 2. Display Ticket");
      printf("\n\t\t 3. Cancel Ticket");
      printf("\n\t\t 4. Exit\n");
      printf("\n\t\t________________________________________\n\n");
