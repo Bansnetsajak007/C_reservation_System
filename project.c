@@ -142,8 +142,9 @@ if(type_ticket == 'y'){
           option);
   fprintf(fp, "\n");
   fprintf(fp, "\nClass: %s\t Seat Number: %d\t", p.seat_class, p.seat_no);
-  fprintf(fp, "\nDepature Date: %s\t", p.depature_date);
   fprintf(fp, "\n");
+  fprintf(fp, "\nDepature Date: %s\t", p.depature_date);
+  // fprintf(fp, "\n");
   fprintf(fp, "\nReturn Date: %s\t", p.return_date);
   fprintf(fp, "\n");
   fclose(fp);
@@ -166,9 +167,6 @@ else{
   printf("\nTicket Reserved Successfully!\n"); 
 }
 
-
-
-  
 }
 
 void display_ticket(Passenger *passengers, int num_passengers) {
@@ -257,6 +255,7 @@ int main() {
   int i;
   int progress;
   int total = 20; // Total number of progress bar units
+  int firstIteration = 0;  //flag that checks how many iteration has occured
   int choice,option;
   char UserName[MAX_STRING_LENGTH],Password[MAX_STRING_LENGTH];
   char buffer[MAX_BUFFER_SIZE];
@@ -320,8 +319,13 @@ int main() {
 
 
   while (1) {
-    printf("\n\nWelcome To XYZ airline serviece %s\n\n", UserName);
+    if(firstIteration){
+    printf("\n\nWelcome To Our Reservation service  %s\n\n", UserName);
+    firstIteration = 0 ; //setting the flag to 0 indicating false
 
+    }
+
+     printf("\n\t\t What Would You Like To Do?");
      printf("\n\t\t________________________________________\n\n");
      printf("\n\t\t 1. Reserve Ticket");
      printf("\n\t\t 1. Display Ticket");
@@ -342,7 +346,7 @@ int main() {
       cancel_reservation(passengers, &num_passengers);
       break;
     case 4:
-      printf("\nThank you for using the Airline Ticket Reservation System.\n");
+      printf("\nThank you for Choosing Us.\n\n\n");
       exit(0);
     default:
       printf("Invalid choice. Please try again.\n");
