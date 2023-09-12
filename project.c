@@ -134,7 +134,7 @@ void reserve_ticket(Passenger *passengers, int *num_passengers) {
     fprintf(fp, "\n====================================================================");
     fprintf(fp, "\nName: %-20sAge: %-20dGender: %c", p.name, p.age, p.gender);
     fprintf(fp, "\nFrom: %-20sTo: %-20sFlight Number: %s", p.from, p.to, p.flight_no);
-    fprintf(fp, "\nClass: %-20sSeat Number: %-15€dDeparture Date: %s", p.seat_class, p.seat_no,p.departure_date);
+    fprintf(fp, "\nClass: %-20sSeat Number: %-15dDeparture Date: %s", p.seat_class, p.seat_no,p.departure_date);
 
     if (type_ticket == 'y') {
     fprintf(fp, "Return Date: %s",p.return_date);
@@ -165,9 +165,10 @@ void display_ticket(Passenger *passengers, int num_passengers) {
 
           if (type_ticket == 'y') {
             printf("Return Date: %s",passengers[i].return_date);
-            printf("\n==========================================================================\n");
             break;
         }
+        
+        printf("\n==========================================================================\n");
     }
 
     if (!found) {
@@ -220,6 +221,9 @@ int main() {
   char buffer[MAX_BUFFER_SIZE];
   char username[MAX_BUFFER_SIZE];
   char Password_[MAX_BUFFER_SIZE];
+  int logedin = 0;
+
+
 
     printf("\n\t\t\t_______________________________________");
     printf("\n");
@@ -229,6 +233,7 @@ int main() {
     printf("\n\t\t\t_______________________________________");
     printf("\n\n");
 
+  
 
   printf("Enter Your UserName:");
   fgets(UserName,MAX_STRING_LENGTH,stdin);
