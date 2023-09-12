@@ -30,7 +30,7 @@ typedef struct passenger {
   char flight_no[MAX_STRING_LENGTH];
   int seat_no;
   char seat_class[MAX_SEAT_CLASS_LENGTH];
-  char depature_date[MAX_STRING_LENGTH];
+  char departure_date[MAX_STRING_LENGTH];
   char return_date[MAX_STRING_LENGTH];
 
 } Passenger;
@@ -65,158 +65,117 @@ int get_seat_number() {
 }
 
 void reserve_ticket(Passenger *passengers, int *num_passengers) {
-  FILE *fp;
-  Passenger p;
+    FILE *fp;
+    Passenger p;
 
-  printf("\nEnter Passenger Details:\n");
-  printf("Name: ");
-  scanf("%s", p.name);
-  strcpy(name_, p.name);
-  strcat(name_, ".txt");
-  fp = fopen(name_, "a");
-  printf("Age: ");
-  scanf("%d", &p.age);
-  printf("Gender (M/F): ");
-  scanf(" %c", &p.gender);
-  printf("From: ");
-  scanf("%s", p.from);
-  printf("To: ");
-  scanf("%s", p.to);
-  printf("Do you want return Ticket [y/n]: ");
-  scanf(" %c", &type_ticket);
-  getchar();  // Consume the newline character
+    printf("\nEnter Passenger Details:\n");
+    printf("Name: ");
+    scanf("%s", p.name);
+    strcpy(name_, p.name);
+    strcat(name_, ".txt");
+    fp = fopen(name_, "a");
+    printf("Age: ");
+    scanf("%d", &p.age);
+    printf("Gender (M/F): ");
+    scanf(" %c", &p.gender);
+    printf("From: ");
+    scanf("%s", p.from);
+    printf("To: ");
+    scanf("%s", p.to);
+    printf("Do you want a return Ticket [y/n]: ");
+    scanf(" %c", &type_ticket);
+    getchar();  // Consume the newline character
 
-  if(type_ticket == 'y'){
-    printf("Enter your depature date: ");
-    // scanf("%s", p.depature_date);
-    fgets(p.depature_date,MAX_STRING_LENGTH,stdin);
+    if (type_ticket == 'y') {
+        printf("Enter your departure date: ");
+        fgets(p.departure_date, MAX_STRING_LENGTH, stdin);
 
-    printf("Enter your return date: ");
-    // scanf("%s", p.return_date);
-    fgets(p.return_date,MAX_STRING_LENGTH,stdin);
-  }
+        printf("Enter your return date: ");
+        fgets(p.return_date, MAX_STRING_LENGTH, stdin);
+    } else {
+        printf("Enter your departure date: ");
+        fgets(p.departure_date, MAX_STRING_LENGTH, stdin);
+    }
 
- else{
-  printf("Enter your depature date: ");
-  // scanf("%s", p.depature_date);
-    fgets(p.depature_date,MAX_STRING_LENGTH,stdin);
- }
-
-  display_flights();
-  printf("Enter your option: ");
-  int option;
-  scanf("%d", &option);
-
-  if (option < 1 || option > num_flights) {
-    printf("Invalid flight option!\n");
-    option = 0;
-    printf("Enter filight options again: ");
+    display_flights();
+    printf("Enter your option: ");
+    int option;
     scanf("%d", &option);
-  }
 
-  strcpy(p.flight_no, flights[get_flight_index(option)].name);
+    if (option < 1 || option > num_flights) {
+        printf("Invalid flight option!\n");
+        option = 0;
+        printf("Enter flight options again: ");
+        scanf("%d", &option);
+    }
 
-  printf("Enter seat class: ");
-  scanf("%s", p.seat_class);
+    strcpy(p.flight_no, flights[get_flight_index(option)].name);
 
-  if (strcmp(p.seat_class, "business") == 0) {
-    p.seat_no = get_seat_number();
-  } else {
-    p.seat_no = get_seat_number();
-  }
+    printf("Enter seat class: ");
+    scanf("%s", p.seat_class);
 
-  if (*num_passengers >= MAX_PASSENGERS) {
-    printf("Maximum number of passengers reached!\n");
-    return;
-  }
+    if (strcmp(p.seat_class, "business") == 0) {
+        p.seat_no = get_seat_number();
+    } else {
+        p.seat_no = get_seat_number();
+    }
 
-  passengers[*num_passengers] = p;
-  *num_passengers += 1;
+    if (*num_passengers >= MAX_PASSENGERS) {
+        printf("Maximum number of passengers reached!\n");
+        return;
+    }
 
-//code for writing ticket details in file
-if(type_ticket == 'y'){
-  fprintf(fp, "\n\t\t\tTicket Details of %s", p.name);
-  fprintf(fp, "\n\nName: %s\t Age: %d\t Gender: %c\t", p.name, p.age, p.gender);
-  fprintf(fp, "\n");
-  fprintf(fp, "\nFrom: %s\t To: %s\t Flignt Number: %d\t", p.from, p.to,
-          option);
-  fprintf(fp, "\n");
-  fprintf(fp, "\nClass: %s\t Seat Number: %d\t", p.seat_class, p.seat_no);
-  fprintf(fp, "\n");
-  fprintf(fp, "\nDepature Date: %s\t", p.depature_date);
-  // fprintf(fp, "\n");
-  fprintf(fp, "\nReturn Date: %s\t", p.return_date);
-  fprintf(fp, "\n");
-  fclose(fp);
+    passengers[*num_passengers] = p;
+    *num_passengers += 1;
 
-  printf("\nTicket Reserved Successfully!\n");
-  }
+    // Code for writing ticket details in file
+    fprintf(fp, "\n====================================================================");
+    fprintf(fp, "\n\t\t\tTicket Details of %s", p.name);
+    fprintf(fp, "\n====================================================================");
+    fprintf(fp, "\nName: %-20sAge: %-20dGender: %c", p.name, p.age, p.gender);
+    fprintf(fp, "\nFrom: %-20sTo: %-20sFlight Number: %s", p.from, p.to, p.flight_no);
+    fprintf(fp, "\nClass: %-20sSeat Number: %-15dDeparture Date: %s", p.seat_class, p.seat_no,p.departure_date);
 
-else{
-  fprintf(fp, "\nTicket Details of %s", p.name);
-  fprintf(fp, "\n\nName: %s\t Age: %d\t Gender: %c\t", p.name, p.age, p.gender);
-  fprintf(fp, "\n");
-  fprintf(fp, "\nFrom: %s\t To: %s\t Flignt Number: %d\t", p.from, p.to,
-          option);
-  fprintf(fp, "\n");
-  fprintf(fp, "\nClass: %s\t Seat Number: %d\t", p.seat_class, p.seat_no);
-  fprintf(fp, "\nDepature Date: %s\t", p.depature_date);
-  fprintf(fp, "\n");
-  fclose(fp);
+    if (type_ticket == 'y') {
+    fprintf(fp, "Return Date: %s",p.return_date);
+    }
 
-  printf("\nTicket Reserved Successfully!\n"); 
+    fprintf(fp, "\n====================================================================\n");
+    fclose(fp);
+
+    printf("\nTicket Reserved Successfully!\n");
 }
 
-}
 
 void display_ticket(Passenger *passengers, int num_passengers) {
-  char name[MAX_STRING_LENGTH];
-  printf("\nEnter Passenger Name: ");
-  scanf("%s", name);
+    char name[MAX_STRING_LENGTH];
+    printf("\nEnter Passenger Name: ");
+    scanf("%s", name);
 
-  int found = 0;
-  for (int i = 0; i < num_passengers; i++) {
-    if (strcmp(passengers[i].name, name) == 0) {
-      found = 1;
-      if(type_ticket == 'y'){
-      printf("\n\t\t\tTicket Details of %s", passengers[i].name);
-      printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name,
-             passengers[i].age, passengers[i].gender);
-      printf("\n");
-      printf("\nFrom: %s\t To: %s\t Flignt Number: %s\t", passengers[i].from,
-             passengers[i].to, passengers[i].flight_no);
-      printf("\n");
-      printf("\nClass: %s\t Seat Number: %d\t", passengers[i].seat_class,
-             passengers[i].seat_no);
-      printf("\n");
-      printf("\nDepature Date: %s\t", passengers[i].depature_date);
-      printf("\nReturn Date: %s\t", passengers[i].return_date);
-      printf("\n");
-      break;
-      }
+    int found = 0;
+    for (int i = 0; i < num_passengers; i++) {
+        if (strcmp(passengers[i].name, name) == 0) {
+            found = 1;
+            printf("\n==========================================================================");
+            printf("\n\t\t\tTicket Details of %s", passengers[i].name);
+            printf("\n==========================================================================");
+            printf("\nName: %-20sAge: %-20dGender: %c", passengers[i].name, passengers[i].age, passengers[i].gender);
+            printf("\nFrom: %-20sTo: %-20sFlight Number: %s", passengers[i].from, passengers[i].to, passengers[i].flight_no);
+            printf("\nClass: %-20sSeat Number: %-15dDeparture Date: %s", passengers[i].seat_class, passengers[i].seat_no,passengers[i].departure_date);
 
-      else{
-      printf("\n\t\t\tTicket Details of %s", passengers[i].name);
-      printf("\n\nName: %s\t Age: %d\t Gender: %c\t", passengers[i].name,
-             passengers[i].age, passengers[i].gender);
-      printf("\n");
-      printf("\nFrom: %s\t To: %s\t Flignt Number: %s\t", passengers[i].from,
-             passengers[i].to, passengers[i].flight_no);
-      printf("\n");
-      printf("\nClass: %s\t Seat Number: %d\t", passengers[i].seat_class,
-             passengers[i].seat_no);
-      printf("\n");
-      printf("\nDepature Date: %s\t", passengers[i].depature_date);
-      printf("\n");
-      break;    
-      }
+          if (type_ticket == 'y') {
+            printf("Return Date: %s",passengers[i].return_date);
+            printf("\n==========================================================================\n");
+            break;
+        }
     }
-  }
 
-  if (!found) {
-    printf("\nPassenger Not Found!\n");
-  }
+    if (!found) {
+        printf("\nPassenger Not Found!\n");
+    }
 }
+}
+
 
 void cancel_reservation(Passenger *passengers, int *num_passengers) {
   char *file_name;
