@@ -134,7 +134,7 @@ void reserve_ticket(Passenger *passengers, int *num_passengers) {
     fprintf(fp, "\n====================================================================");
     fprintf(fp, "\nName: %-20sAge: %-20dGender: %c", p.name, p.age, p.gender);
     fprintf(fp, "\nFrom: %-20sTo: %-20sFlight Number: %s", p.from, p.to, p.flight_no);
-    fprintf(fp, "\nClass: %-20sSeat Number: %-15dDeparture Date: %s", p.seat_class, p.seat_no,p.departure_date);
+    fprintf(fp, "\nClass: %-20sSeat Number: %-15€dDeparture Date: %s", p.seat_class, p.seat_no,p.departure_date);
 
     if (type_ticket == 'y') {
     fprintf(fp, "Return Date: %s",p.return_date);
