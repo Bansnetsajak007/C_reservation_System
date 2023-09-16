@@ -1,4 +1,6 @@
 //total time wasted 34 hours
+//initial project files without any modifications
+
 
 #include <stdio.h>
 #include <conio.h>
@@ -6,33 +8,19 @@
 #include <string.h>
 #include <time.h>
 
-#define MAX_USERS 100
-#define MAX_USERNAME_LENGTH 50
-#define MAX_PASSWORD_LENGTH 50
 #define MAX_PASSENGERS 50
 #define MAX_BUFFER_SIZE 100  //for Password auth
-#define MAX_STRING_LENGTH 50 //Defining maximum length of string inputs
+//Defining maximum length of string inputs
+#define MAX_STRING_LENGTH 50
 char name_[MAX_STRING_LENGTH];
 char type_ticket;
 char log_in;
-
 
 // Defining  maximum length for flight names
 #define MAX_FLIGHT_NAME_LENGTH 20
 
 // Defining the maximum length for seat class
 #define MAX_SEAT_CLASS_LENGTH 20
-
-//structure of login and signup authentication
-struct User {
-    char username[MAX_USERNAME_LENGTH];
-    char password[MAX_PASSWORD_LENGTH];
-};
-
-typedef struct User User;
-
-User users[MAX_USERS];
-int userCount = 0;
 
 // structure which holds details of passenger
 typedef struct passenger {
@@ -77,122 +65,6 @@ int get_seat_number() {
   scanf("%d", &seat_no);
   return seat_no;
 }
-
-//will check this tommorow
-// Function to authenticate a user
-// int authenticateUser(char *userName, char *password) {
-//     FILE *file = fopen("password.txt", "r");
-//     if (file == NULL) {
-//         printf("Error: Unable to open password file.\n");
-//         return 0; // Authentication fails if the password file can't be opened
-//     }
-
-//     char buffer[MAX_BUFFER_SIZE];
-//     char storedUserName[MAX_STRING_LENGTH];
-//     char storedPassword[MAX_STRING_LENGTH];
-
-//     while (fgets(buffer, sizeof(buffer), file)) {
-//         sscanf(buffer, "%s %s", storedUserName, storedPassword);
-//         if (strcmp(userName, storedUserName) == 0 && strcmp(password, storedPassword) == 0) {
-//             fclose(file);
-//             return 1; // Authentication succeeds
-//         }
-//     }
-
-//     fclose(file);
-//     return 0; // Authentication fails
-// }
-
-//method to save user data to a file
-void saveUserDataToFile() {
-      FILE *file = fopen("userdata.txt", "w");
-    if (file == NULL) {
-        printf("Error opening file for writing.\n");
-        exit(1);
-    }
-
-    for (int i = 0; i < userCount; i++) {
-        fprintf(file, "%s %s\n", users[i].username, users[i].password);
-    }
-
-    fclose(file);
-}
-
-//method that loads data from the file
-void loadUserDataFromFile() {
-  FILE *file = fopen("userdata.txt", "r");
-  if(file == NULL){
-    return;  //user data doesnot exist
-  }
-
-    char username[MAX_USERNAME_LENGTH];
-    char password[MAX_PASSWORD_LENGTH];
-
-    while (fscanf(file, "%s %s", username, password) != EOF) {
-        strcpy(users[userCount].username, username);
-        strcpy(users[userCount].password, password);
-        userCount++;
-    }
-
-    fclose(file);
-}
-
-// method to check if a username is already taken
-int isUsernameTaken(const char *username) {
-    for (int i = 0; i < userCount; i++) {
-        if (strcmp(users[i].username, username) == 0) {
-            return 1; // Username is taken
-        }
-    }
-    return 0; // Username is not taken
-}
-
-// Function to sign up a new user
-void signup() {
-    char username[MAX_USERNAME_LENGTH];
-    char password[MAX_PASSWORD_LENGTH];
-
-    printf("Enter a new username: ");
-    scanf("%s", username);
-
-    if (isUsernameTaken(username)) {
-        printf("Username is already taken. Please choose a different one.\n");
-        return;
-    }
-
-    printf("Enter a password: ");
-    scanf("%s", password);
-
-    strcpy(users[userCount].username, username);
-    strcpy(users[userCount].password, password);
-    userCount++;
-
-    printf("Signup successful! You can now log in.\n");
-
-    // Save the updated user data to the file
-    saveUserDataToFile();
-}
-
-// Function to log in a user
-void login() {
-    char username[MAX_USERNAME_LENGTH];
-    char password[MAX_PASSWORD_LENGTH];
-
-    printf("Enter your username: ");
-    scanf("%s", username);
-    printf("Enter your password: ");
-    scanf("%s", password);
-
-    for (int i = 0; i < userCount; i++) {
-        if (strcmp(users[i].username, username) == 0 && strcmp(users[i].password, password) == 0) {
-            printf("Login successful! Welcome, %s!\n", username);
-            return;
-        }
-    }
-
-    printf("Login failed. Please check your username and password.\n");
-}
-
 
 void reserve_ticket(Passenger *passengers, int *num_passengers) {
     FILE *fp;
@@ -338,47 +210,22 @@ void cancel_reservation(Passenger *passengers, int *num_passengers) {
   }
 }
 
-void displayLoadingBar(){
-  int total = 20,progress,i;
-      for (i = 0; i <= total; i++) {
-        progress = i * 100 / total;
-
-        // Display progress bar
-        printf("\rLoading: [");
-        int j;
-        for (j = 0; j < i; j++) {
-            printf("=");
-        }
-        printf(">");
-        for (j = i + 1; j <= total; j++) {
-            printf(" ");
-        }
-        printf("] %d%%", progress);
-        fflush(stdout);
-
-        struct timespec sleepTime;
-            sleepTime.tv_sec = 0;
-            sleepTime.tv_nsec = 100000000L; // 100 milliseconds
-            nanosleep(&sleepTime, NULL);
-    }
-}
-
-// will write main function to match the final requirement
 int main() {
   
   Passenger passengers[MAX_PASSENGERS];
   int num_passengers = 0;
   int i;
+  int progress;
+  int total = 20; // Total number of progress bar units
   int firstIteration = 0;  //flag that checks how many iteration has occured
   int choice,option;
   char UserName[MAX_STRING_LENGTH],Password[MAX_STRING_LENGTH];
   char buffer[MAX_BUFFER_SIZE];
   char username[MAX_BUFFER_SIZE];
   char Password_[MAX_BUFFER_SIZE];
-  int loggedIn = 0;
-  char login;
+  int logedin = 0;
 
-  loadUserDataFromFile(); //load user data from the file at the start of the program
+
 
     printf("\n\t\t\t_______________________________________");
     printf("\n");
@@ -387,6 +234,8 @@ int main() {
     printf("\n\t\t\t  AIRLINE TICKET RESERVATION SYSTEM  ");
     printf("\n\t\t\t_______________________________________");
     printf("\n\n");
+
+  
 
   printf("Enter Your UserName:");
   fgets(UserName,MAX_STRING_LENGTH,stdin);
@@ -409,9 +258,32 @@ int main() {
     printf("Loading: [");
     fflush(stdout);
 
-    displayLoadingBar();
+    for (i = 0; i <= total; i++) {
+        progress = i * 100 / total;
+
+        // Display progress bar
+        printf("\rLoading: [");
+        int j;
+        for (j = 0; j < i; j++) {
+            printf("=");
+        }
+        printf(">");
+        for (j = i + 1; j <= total; j++) {
+            printf(" ");
+        }
+        printf("] %d%%", progress);
+        fflush(stdout);
+
+        struct timespec sleepTime;
+            sleepTime.tv_sec = 0;
+            sleepTime.tv_nsec = 100000000L; // 100 milliseconds
+            nanosleep(&sleepTime, NULL);
+    }
         printf("\n");
-        
+
+
+
+
   while (1) {
     if(firstIteration){
     printf("\n\nWelcome To Our Reservation service  %s\n\n", UserName);
