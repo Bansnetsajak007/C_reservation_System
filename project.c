@@ -264,17 +264,17 @@ void reserve_ticket(Passenger *passengers, int *num_passengers)
   *num_passengers += 1;
 
   // Code for writing ticket details in file
-  fprintf(fp, "\n====================================================================");
-  fprintf(fp, "\n\t\t\tTicket Details of %s", p.name);
-  fprintf(fp, "\n====================================================================");
-  fprintf(fp, "\nName: %-20sAge: %-20dGender: %c", p.name, p.age, p.gender);
-  fprintf(fp, "\nFrom: %-20sTo: %-20sFlight Number: %s", p.from, p.to, p.flight_no);
-  fprintf(fp, "\nClass: %-20sSeat Number: %-15dDeparture Date: %s", p.seat_class, p.seat_no, p.departure_date);
-  fprintf(fp, "\nBooked By: %-20s",bookedBy);
+  fprintf(fp, "=================================================================================\n");
+  fprintf(fp, "                       Ticket Details of %s\n", p.name);
+  fprintf(fp, "=================================================================================\n");
+  fprintf(fp, "Name: %-20s Age: %-2d                        Gender: %c\n", p.name, p.age, p.gender);
+  fprintf(fp, "From: %-20s To: %-20s        Flight Number: %s\n", p.from, p.to, p.flight_no);
+  fprintf(fp, "Class: %-18s  Seat Number: %-2d                  Departure Date: %s\n", p.seat_class, p.seat_no, p.departure_date);
+  fprintf(fp, "Booked By: %-20s\n",bookedBy);
 
   if (type_ticket == 'y')
   {
-    fprintf(fp, "%-20sReturn Date: %s", p.return_date);
+    fprintf(fp, "Return Date: %-20s", p.return_date);
   }
 
   fprintf(fp, "\n====================================================================\n");
@@ -295,17 +295,17 @@ void display_ticket(Passenger *passengers, int num_passengers)
     if (strcmp(passengers[i].name, name) == 0)
     {
       found = 1;
-      printf("\n==========================================================================");
-      printf("\n\t\t\tTicket Details of %s", passengers[i].name);
-      printf("\n==========================================================================");
-      printf("\nName: %-20sAge: %-20dGender: %c", passengers[i].name, passengers[i].age, passengers[i].gender);
-      printf("\nFrom: %-20sTo: %-20sFlight Number: %s", passengers[i].from, passengers[i].to, passengers[i].flight_no);
-      printf("\nClass: %-20sSeat Number: %-15dDeparture Date: %s", passengers[i].seat_class, passengers[i].seat_no, passengers[i].departure_date);
-      printf("\nBooked By: %-20s",bookedBy);
+    printf("=================================================================================\n");
+    printf("                       Ticket Details of %s\n", name);
+    printf("=================================================================================\n");
+      printf("Name: %-20s Age: %-2d                           Gender: %c\n", passengers[i].name, passengers[i].age, passengers[i].gender);
+      printf("From: %-20s To: %-20s         Flight Number: %s\n", passengers[i].from, passengers[i].to, passengers[i].flight_no);
+      printf("Class: %-18s  Seat Number: %-2d                   Departure Date: %s\n", passengers[i].seat_class, passengers[i].seat_no, passengers[i].departure_date);
+      printf("Booked By: %-20s",bookedBy);
 
       if (type_ticket == 'y')
       {
-        printf("%-20sReturn Date: %s", passengers[i].return_date);
+        printf("Return Date: %-15s", passengers[i].return_date);
         break;
       }
 
