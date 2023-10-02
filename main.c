@@ -1,6 +1,6 @@
 //total time wasted 34 hours
 //initial project files without any modifications
-
+//this is not the main project file
 
 #include <stdio.h>
 #include <conio.h>
