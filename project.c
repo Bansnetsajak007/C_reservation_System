@@ -1,4 +1,5 @@
 // total time wasted 34 hours
+//final ready
 
 #include <stdio.h>
 #include <conio.h>
@@ -84,27 +85,9 @@ int get_seat_number()
   return seat_no;
 }
 
-// method to save user data to a file
-void saveUserDataToFile()
-{
-  FILE *file = fopen("userdata.txt", "w");
-  if (file == NULL)
-  {
-    printf("Error opening file for writing.\n");
-    exit(1);
-  }
 
-  for (int i = 0; i < userCount; i++)
-  {
-    fprintf(file, "%s %s\n", users[i].username, users[i].password);
-  }
-
-  fclose(file);
-}
-
-// method that loads data from the file
-void loadUserDataFromFile()
-{
+// important
+void loadUserDataFromFile() {
   FILE *file = fopen("userdata.txt", "r");
   if (file == NULL)
   {
@@ -124,74 +107,8 @@ void loadUserDataFromFile()
   fclose(file);
 }
 
-// method to check if a username is already taken
-int isUsernameTaken(const char *username)
-{
-  for (int i = 0; i < userCount; i++)
-  {
-    if (strcmp(users[i].username, username) == 0)
-    {
-      return 1; // Username is taken
-    }
-  }
-  return 0; // Username is not taken
-}
 
-// Function to sign up a new user
-void signup()
-{
-  char username[MAX_USERNAME_LENGTH];
-  char password[MAX_PASSWORD_LENGTH];
-
-  printf("Enter a new username: ");
-  scanf("%s", username);
-
-  if (isUsernameTaken(username))
-  {
-    printf("Username is already taken. Please choose a different one.\n");
-    return;
-  }
-
-  printf("Enter a password: ");
-  scanf("%s", password);
-
-  strcpy(users[userCount].username, username);
-  strcpy(users[userCount].password, password);
-  userCount++;
-
-  printf("Signup successful! You can now log in.\n");
-
-  // Save the updated user data to the file
-  saveUserDataToFile();
-}
-
-// Function to log in a user
-int login()
-{
-  char username[MAX_USERNAME_LENGTH];
-  char password[MAX_PASSWORD_LENGTH];
-
-  printf("Enter your username: ");
-  scanf("%s", username);
-  strcpy(bookedBy,username);
-  printf("Enter your password: ");
-  scanf("%s", password);
-
-  for (int i = 0; i < userCount; i++)
-  {
-    if (strcmp(users[i].username, username) == 0 && strcmp(users[i].password, password) == 0)
-    {
-      printf("\nLogin successful! Welcome, %s!\n", username);
-      return 1;
-    }
-  }
-
-  printf("Login failed. Please check your username and password.\n");
-  return 0;
-}
-
-void reserve_ticket(Passenger *passengers, int *num_passengers)
-{
+void reserve_ticket(Passenger *passengers, int *num_passengers) {
   FILE *fp;
   Passenger p;
 
@@ -277,14 +194,13 @@ void reserve_ticket(Passenger *passengers, int *num_passengers)
     fprintf(fp, "Return Date: %-20s", p.return_date);
   }
 
-  fprintf(fp, "\n====================================================================\n");
+  fprintf(fp, "\n=================================================================================n");
   fclose(fp);
 
   printf("\nTicket Reserved Successfully!\n");
 }
 
-void display_ticket(Passenger *passengers, int num_passengers)
-{
+void display_ticket(Passenger *passengers, int num_passengers) {
   char name[MAX_STRING_LENGTH];
   printf("\nEnter Passenger Name: ");
   scanf("%s", name);
@@ -309,7 +225,7 @@ void display_ticket(Passenger *passengers, int num_passengers)
         break;
       }
 
-      printf("\n==========================================================================\n");
+      printf("\n=================================================================================n");
     }
 
     if (!found)
@@ -319,6 +235,7 @@ void display_ticket(Passenger *passengers, int num_passengers)
   }
 }
 
+//important
 void cancel_reservation(Passenger *passengers, int *num_passengers)
 {
   char *file_name;
@@ -352,36 +269,6 @@ void cancel_reservation(Passenger *passengers, int *num_passengers)
   if (!found)
   {
     printf("\nPassenger Not Found!\n");
-  }
-}
-
-void displayLoadingBar()
-{
-  int total = 20, progress, i;
-  for (i = 0; i <= total; i++)
-  {
-    progress = i * 100 / total;
-
-    // Display progress bar
-    printf("\rLoading: [");
-    int j;
-    for (j = 0; j < i; j++)
-    {
-      printf("=");
-    }
-    printf(">");
-    for (j = i + 1; j <= total; j++)
-    {
-      printf(" ");
-    }
-    printf("] %d%%", progress);
-    fflush(stdout);
-
-    struct timespec sleepTime;
-    sleepTime.tv_sec = 0;
-    sleepTime.tv_nsec = 100000000L; // 100 milliseconds
-    nanosleep(&sleepTime, NULL);
-    printf("\n");
   }
 }
 
